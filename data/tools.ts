@@ -1,0 +1,21 @@
+export const TOOL_IMAGES = [
+    { src: "/images/vscode.png", alt: "VS Code" },
+    { src: "/images/react-native.png", alt: "React Native" },
+    { src: "/images/android-studio.png", alt: "Android Studio" },
+    { src: "/images/laravel.png", alt: "Laravel" },
+    { src: "/images/php.png", alt: "PHP" },
+    { src: "/images/mysql.png", alt: "MySQL" },
+    { src: "/images/java.png", alt: "Java" },
+    { src: "/images/github.png", alt: "GitHub" },
+    { src: "/images/dart.png", alt: "Dart" },
+    { src: "/images/flutter.png", alt: "Flutter" },
+    { src: "/images/figma.png", alt: "Figma" },
+    { src: "/images/kotlin.png", alt: "Kotlin" },
+    { src: "/images/postgresql.png", alt: "PostgreSQL" },
+    { src: "/images/js.png", alt: "JavaScript" },
+    { src: "/images/css.png", alt: "CSS" },
+    { src: "/images/firebase.png", alt: "Firebase" },
+    { src: "/images/gradle.png", alt: "Gradle" },
+    { src: "/images/sqlite.png", alt: "SQLite" },
+  ];
+  
