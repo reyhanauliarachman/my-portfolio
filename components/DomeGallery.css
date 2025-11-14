@@ -59,14 +59,20 @@ main.sphere-main {
 
 .overlay {
   background-image: radial-gradient(
-    rgba(255, 255, 255, 0) 65%, 
+    rgba(255, 255, 255, 0) 65%,
     rgba(255, 255, 255, 0) 100%
   );
 }
 
 .overlay--blur {
-  -webkit-mask-image: radial-gradient(rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0) 90%);
-  mask-image: radial-gradient(rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0) 90%);
+  -webkit-mask-image: radial-gradient(
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0) 90%
+  );
+  mask-image: radial-gradient(
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0) 90%
+  );
   backdrop-filter: none;
 }
 
@@ -82,8 +88,18 @@ main.sphere-main {
   transform-origin: 50% 50%;
   backface-visibility: hidden;
   transition: transform 300ms;
-  transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
-    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+  transform: rotateY(
+      calc(
+        var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) +
+          var(--rot-y-delta, 0deg)
+      )
+    )
+    rotateX(
+      calc(
+        var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) +
+          var(--rot-x-delta, 0deg)
+      )
+    )
     translateZ(var(--radius));
 }
 
@@ -121,7 +137,6 @@ main.sphere-main {
   border-radius: 12px; /* supaya gambar tetap mengikuti card */
 }
 
-
 .viewer {
   position: absolute;
   inset: 0;
@@ -158,7 +173,7 @@ main.sphere-main {
   backdrop-filter: blur(3px);
 }
 
-.sphere-root[data-enlarging='true'] .viewer .scrim {
+.sphere-root[data-enlarging="true"] .viewer .scrim {
   opacity: 1;
   pointer-events: all;
 }
@@ -168,9 +183,7 @@ main.sphere-main {
   z-index: 30;
   border-radius: var(--enlarge-radius, 32px);
   overflow: hidden;
-  transition:
-    transform 500ms ease,
-    opacity 500ms ease;
+  transition: transform 500ms ease, opacity 500ms ease;
   transform-origin: top left;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
@@ -193,7 +206,7 @@ main.sphere-main {
   height: 120px;
   z-index: 5;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, #000000) !important;
+  background: linear-gradient(to bottom, transparent, #010108) !important;
 }
 
 .edge-fade--top {

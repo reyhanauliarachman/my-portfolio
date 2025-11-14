@@ -1,14 +1,17 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import "./style.css";
 import "swiper/css";
 import TextType from "@/components/TextType";
 import SplitText from "@/components/SplitText";
-import "@/components/TextType.css"; 
+import "@/components/TextType.css";
 import DomeGallery from "@/components/DomeGallery";
 import { TOOL_IMAGES } from "@/data/tools";
 import HyperspeedBackground from "@/components/Hyperspeed/HyperspeedBackground";
+import ProfileCard from "@/components/Profilecard/ProfileCard";
+import ScrollVelocity from "@/components/Scrollvelocity/ScrollVelocity";
+import ElectricBorder from "@/components/Electric-border/ElectricBorder";
 
 export default function Page() {
   useEffect(() => {
@@ -19,6 +22,8 @@ export default function Page() {
     });
   }, []);
 
+  const [velocity] = useState(0.8);
+
   return (
     <>
       <Head>
@@ -28,9 +33,6 @@ export default function Page() {
         <link rel="stylesheet" href="swiper-bundle.min.css" />
         <script src="https://unpkg.com/scrollreveal"></script>
       </Head>
-
-
-
 
       {/* ======= Scroll to Top Button ======= */}
       <div className="scrollToTop-btn flex-center">
@@ -66,16 +68,21 @@ export default function Page() {
       </header>
 
       {/* ======= Home Section ======= */}
-      <section className="home flex-center" id="home" style={{ position: "relative", zIndex: 10, background: "transparent" }}>
-              {/* ===== Hyperspeed Background ===== */}
-      <HyperspeedBackground
-        length={400}
-        roadWidth={10}
-        lanesPerRoad={4}
-        isHyper={true}
-        className="hyperspeed-bg"
-  style={{ pointerEvents: "none" }}
-      />
+      <section
+        className="home flex-center"
+        id="home"
+        style={{ position: "relative", zIndex: 10, background: "transparent" }}
+      >
+        {/* ===== Hyperspeed Background ===== */}
+        <HyperspeedBackground
+          length={400}
+          roadWidth={10}
+          lanesPerRoad={4}
+          isHyper={true}
+          className="hyperspeed-bg"
+          style={{ pointerEvents: "none" }}
+        />
+
         <div className="home-container">
           <div className="media-icons">
             <a href="https://www.linkedin.com/in/reyhan-aulia-rachman-48206922b">
@@ -88,39 +95,55 @@ export default function Page() {
               <i className="fab fa-tiktok"></i>
             </a>
           </div>
-          <div className="home-card-holder">
-            <iframe
-              src="https://card-holder-animation.vercel.app/"
-              frameBorder="0"
-              loading="lazy"
-              className="card-holder-frame"
-              title="Card Holder"
-            ></iframe>
+
+          {/* === ProfileCard === */}
+          <div className="profile-card-wrapper" style={{ marginTop: "40px" }}>
+            <ProfileCard
+              name="Reyhan"
+              title="Android Mobile Developer"
+              handle="reyhanaulia"
+              status="Available for Projects"
+              contactText="Contact Me"
+              avatarUrl="/images/card-profile.png"
+              showUserInfo={true}
+              enableTilt={true}
+              enableMobileTilt={false}
+              onContactClick={() =>
+                document
+                  .getElementById("contact")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            />
           </div>
           <div className="info">
-          <h2>             
-            <TextType
-              text={["Hi, Im Reyhan Aulia Rachman"]}
-              typingSpeed={75}
-              pauseDuration={1500}
-              showCursor={true}
-              cursorCharacter="|"
-              className="text-typing"
-            />
-          </h2>
-          <h3>
-            <SplitText text="Android Mobile Developer" className="split-text" />
-          </h3>
-          <div className="description">
-          <SplitText
-            text="I craft stunning mobile apps tailored for your business bringing extensive experience in mobile app design and development."
-            className="split-text"
-            textAlign="left"  
-            tag="p"/>
-          </div>
-            <a href="#contact" className="btn">
-              Contact Me <i className="fas fa-arrow-circle-right"></i>
-            </a>
+            <div className="typing-container">
+              <h2>
+                <TextType
+                  text={["Hi, I'm Reyhan Aulia Rachman"]}
+                  typingSpeed={75}
+                  pauseDuration={1500}
+                  showCursor={true}
+                  cursorCharacter="|"
+                  className="text-typing"
+                />
+              </h2>
+
+              <h3>
+                <SplitText
+                  text="Android Mobile Developer"
+                  className="split-text"
+                />
+              </h3>
+
+              <div className="description">
+                <SplitText
+                  text="I craft stunning mobile apps tailored for your business bringing extensive experience in mobile app design and development."
+                  className="split-text"
+                  textAlign="left"
+                  tag="p"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <a href="#about" className="scroll-down">
@@ -135,7 +158,7 @@ export default function Page() {
           <h2 className="section-title-02">About Me</h2>
           <div className="content flex-center">
             <div className="about-img">
-            <img src="/images/IMG_0263.jpg" alt="Profile Picture" />
+              <img src="/images/IMG_0263.jpg" alt="Profile Picture" />
             </div>
             <div className="about-info">
               <div className="description">
@@ -178,70 +201,104 @@ export default function Page() {
         <div className="container flex-center">
           <h1 className="section-title-01">Skills</h1>
           <h2 className="section-title-02">Skills</h2>
+
           <div className="content">
-            <div className="skills-description">
-              <h3>Tools & Technologies</h3>
-              <p>
-                With over two years of hands-on experience, I specialize in
-                Android app development, blending modern tools and technologies
-                to create seamless, high performance mobile experiences.
-              </p>
+            {/* ScrollVelocity Full Width */}
+            <div className="scrollvelocity-wrapper">
+              <ScrollVelocity
+                texts={["My Expertise ✦ ", "Tools & Technology"]}
+                velocity={20}
+                className="custom-scroll-text"
+              />
             </div>
+
+            {/* Dome Gallery */}
             <div className="education">
               <DomeGallery images={TOOL_IMAGES} fit={0.6} />
             </div>
+
+            {/* Work & Experience */}
             <div className="skills-description">
               <h3>Work & Experience</h3>
             </div>
-            <div className="skills-info">
-              <div className="experience-card">
-                <div className="upper">
-                  <h3>Badan Pusat Statistik</h3>
-                  <h5>Data Operator</h5>
-                  <span>March 2021 - Present</span>
-                </div>
-                <div className="hr"></div>
-                <h4>
-                  <label>National Population Survey</label>
-                </h4>
-                <p>
-                  I updated the population data from the census and adjusted the
-                  North Jakarta area using QGIS.
-                </p>
-              </div>
-              <div className="experience-card">
-                <div className="upper">
-                  <h3>
-                    Bangkit Academy led by Google, Tokopedia, Gojek, &
-                    Traveloka
-                  </h3>
-                  <span>September 2024 - December 2024</span>
-                </div>
-                <div className="hr"></div>
-                <h4>
-                  <label>Mobile Development Cohort</label>
-                </h4>
-                <p>
-                  I specialize in designing and developing Android mobile
-                  applications using the Kotlin programming language
-                </p>
-              </div>
 
-              <div className="experience-card">
-                <div className="upper">
-                  <h3>Full Stack Android Developer</h3>
-                  <h5>Full Time | InHouse</h5>
-                  <span>January 2023 - Present</span>
+            <div className="skills-info">
+              {/* Experience Card 1 */}
+              <ElectricBorder
+                color="#7df9ff"
+                speed={1}
+                chaos={0.5}
+                thickness={2}
+                style={{ borderRadius: 16 }}
+              >
+                <div className="experience-card">
+                  <div className="upper">
+                    <h3>Badan Pusat Statistik</h3>
+                    <h5>Data Operator</h5>
+                    <span>March 2021 - Present</span>
+                  </div>
+                  <div className="hr"></div>
+                  <h4>
+                    <label>National Population Survey</label>
+                  </h4>
+                  <p>
+                    I updated the population data from the census and adjusted
+                    the North Jakarta area using QGIS.
+                  </p>
                 </div>
-                <div className="hr"></div>
-                <h4>
-                  <label>Flutter & Kotlin</label>
-                </h4>
-                <p>
-                  I design, develop, and create dynamic Android mobile
-                  applications using Flutter and Kotlin
-                </p>
-              </div>
+              </ElectricBorder>
+
+              {/* Experience Card 2 */}
+              <ElectricBorder
+                color="#7df9ff"
+                speed={1}
+                chaos={0.5}
+                thickness={2}
+                style={{ borderRadius: 16 }}
+              >
+                <div className="experience-card">
+                  <div className="upper">
+                    <h3>
+                      Bangkit Academy led by Google, Tokopedia, Gojek, &
+                      Traveloka
+                    </h3>
+                    <span>September 2024 - December 2024</span>
+                  </div>
+                  <div className="hr"></div>
+                  <h4>
+                    <label>Mobile Development Cohort</label>
+                  </h4>
+                  <p>
+                    I specialize in designing and developing Android mobile
+                    applications using the Kotlin programming language.
+                  </p>
+                </div>
+              </ElectricBorder>
+
+              {/* Experience Card 3 */}
+              <ElectricBorder
+                color="#7df9ff"
+                speed={1}
+                chaos={0.5}
+                thickness={2}
+                style={{ borderRadius: 16 }}
+              >
+                <div className="experience-card">
+                  <div className="upper">
+                    <h3>Full Stack Android Developer</h3>
+                    <h5>Full Time | InHouse</h5>
+                    <span>January 2023 - Present</span>
+                  </div>
+                  <div className="hr"></div>
+                  <h4>
+                    <label>Flutter & Kotlin</label>
+                  </h4>
+                  <p>
+                    I design, develop, and create dynamic Android mobile
+                    applications using Flutter and Kotlin.
+                  </p>
+                </div>
+              </ElectricBorder>
             </div>
           </div>
         </div>
@@ -262,10 +319,7 @@ export default function Page() {
                       <h3>Web Design</h3>
                       <span>Youtube</span>
                     </div>
-                    <img
-                      src={`images/porto1.png`}
-                      alt={`Portfolio${i}`}
-                    />
+                    <img src={`images/porto1.png`} alt={`Portfolio${i}`} />
                   </div>
                 </div>
               ))}
@@ -356,53 +410,57 @@ export default function Page() {
 
       {/* ======= Footer ======= */}
       <footer>
-  <div className="footer-container">
+        <div className="footer-container">
+          <div className="about group">
+            <h2>Reyhan</h2>
+            <p>Android Mobile Developer</p>
+            <a href="#about">About Me</a>
+          </div>
 
-    <div className="about group">
-      <h2>Reyhan</h2>
-      <p>Android Mobile Developer</p>
-      <a href="#about">About Me</a>
-    </div>
+          <div className="hr"></div>
 
-    <div className="hr"></div>
+          <div className="info group">
+            <h3>More</h3>
+            <ul>
+              <li>
+                <a href="#skills">Skills</a>
+              </li>
+              <li>
+                <a href="#portfolio">Portfolio</a>
+              </li>
+              <li>
+                <a href="#contact">Contact</a>
+              </li>
+            </ul>
+          </div>
 
-    <div className="info group">
-      <h3>More</h3>
-      <ul>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
+          <div className="hr"></div>
 
-    <div className="hr"></div>
-
-    <div className="follow group">
-      <h3>Follow</h3>
-      <ul>
-        <li>
-          <a href="https://www.linkedin.com/in/reyhan-aulia-rachman-48206922b">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.instagram.com/reyyrach_?igsh=MTYzNzZ4b2d4dzJqNA==">
-            <i className="fab fa-instagram"></i>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.tiktok.com/@user83638292363?_r=1&_t=ZS-91AEMOE3kns">
-            <i className="fab fa-tiktok"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-  <div className="footer-copyright group">
-    <p>© 2025 Reyhan Aulia Rachman. All rights reserved.</p>
-  </div>
-</footer>
+          <div className="follow group">
+            <h3>Follow</h3>
+            <ul>
+              <li>
+                <a href="https://www.linkedin.com/in/reyhan-aulia-rachman-48206922b">
+                  <i className="fab fa-linkedin"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/reyyrach_?igsh=MTYzNzZ4b2d4dzJqNA==">
+                  <i className="fab fa-instagram"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@user83638292363?_r=1&_t=ZS-91AEMOE3kns">
+                  <i className="fab fa-tiktok"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-copyright group">
+          <p>© 2025 Reyhan Aulia Rachman. All rights reserved.</p>
+        </div>
+      </footer>
     </>
   );
 }
