@@ -9,35 +9,41 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@gsap/react": "^2.1.2",
-    "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.18.0",
+    "@react-spring/core": "^10.0.3",
+    "@react-spring/three": "^10.0.3",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.0",
+    "@react-three/rapier": "^2.2.0",
     "@use-gesture/react": "^10.3.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.23.24",
     "gsap": "^3.13.0",
     "lucide-react": "^0.553.0",
     "meshline": "^3.3.1",
     "motion": "^12.23.24",
-    "next": "14.2.33",
+    "next": "^16.0.3",
     "postprocessing": "^6.37.8",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "scrollreveal": "^4.0.9",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19.2.4",
+    "@types/react-dom": "^19.2.3",
     "@types/scrollreveal": "^0.0.11",
     "@types/three": "^0.181.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }

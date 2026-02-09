@@ -82,7 +82,19 @@
 .pc-card:hover,
 .pc-card.active {
   transition: none;
-  transform: translateZ(0) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+  transform: translateZ(0) rotateX(calc(var(--rotate-y) * 2.2))
+    rotateY(calc(var(--rotate-x) * 2.2));
+
+  background: radial-gradient(
+      circle at var(--pointer-x) var(--pointer-y),
+      rgba(3, 7, 251, 0.35),
+      rgba(20, 20, 35, 1)
+    ),
+    linear-gradient(145deg, #161622, #0d0d18);
+}
+
+.pc-card:hover .pc-inside {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .pc-card-shell.entering .pc-card {
@@ -105,7 +117,6 @@
   inset: 0;
   position: absolute;
   background-image: var(--inner-gradient);
-  background-color: rgba(0, 0, 0, 0.9);
   transform: none;
 }
 
@@ -120,7 +131,7 @@
   filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
   animation: holo-bg 18s linear infinite;
   animation-play-state: running;
-  mix-blend-mode: color-dodge;
+  mix-blend-mode: soft-light;
 }
 
 .pc-shine,

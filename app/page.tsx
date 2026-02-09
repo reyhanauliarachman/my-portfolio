@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Canvas } from "@react-three/fiber";
 import Head from "next/head";
 import "./style.css";
 import "swiper/css";
@@ -12,17 +13,186 @@ import HyperspeedBackground from "@/components/Hyperspeed/HyperspeedBackground";
 import ProfileCard from "@/components/Profilecard/ProfileCard";
 import ScrollVelocity from "@/components/Scrollvelocity/ScrollVelocity";
 import ElectricBorder from "@/components/Electric-border/ElectricBorder";
+import ShinyText from "@/components/ShinyText";
+import emailjs from "@emailjs/browser";
+
+const sections = ["home", "about", "skills", "portfolio", "contact"];
 
 export default function Page() {
+  const [activeMenu, setActiveMenu] = useState<string>("home");
+  const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    setLoading(true);
+
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
+        formRef.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
+      )
+      .then(
+        () => {
+          setSuccess(true);
+          setLoading(false);
+          formRef.current?.reset();
+        },
+        (error) => {
+          console.error(error);
+          setLoading(false);
+          alert("Failed to send message 😢");
+        }
+      );
+  };
+
+  const closePortfolio = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+    setSelectedPortfolio(null);
+  };
+
   useEffect(() => {
-    // Import ScrollReveal dengan cara yang benar
+    if (!selectedPortfolio) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closePortfolio();
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selectedPortfolio]);
+
+  // === ScrollReveal (once) ===
+  useEffect(() => {
     import("scrollreveal").then((ScrollReveal) => {
-      const sr = ScrollReveal.default();
-      sr.reveal(".section", { delay: 200 });
+      ScrollReveal.default().reveal(".section", {
+        delay: 100,
+        distance: "40px",
+        duration: 600,
+        easing: "ease-out",
+        reset: false,
+      });
     });
   }, []);
 
-  const [velocity] = useState(0.8);
+  // === Sticky Header + ScrollSpy ===
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>("header");
+
+    if (!header) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveMenu(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // 🔥 lebih responsif
+      }
+    );
+
+    sections.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+
+    const onScroll = () => {
+      header.classList.toggle("sticky", window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // === Smooth Scroll with Header Offset ===
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const headerOffset = 80; // tinggi header
+    const elementPosition = el.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
+
+  const portfolioItems = [
+    {
+      id: 1,
+      title: "Health Hub",
+      category: "Mobile App using Flutter",
+      video: "/videos/healthub.mp4",
+      images: [
+        "/images/healthhub/1.png",
+        "/images/healthhub/2.png",
+        "/images/healthhub/3.png",
+        "/images/healthhub/4.png",
+        "/images/healthhub/5.png",
+        "/images/healthhub/6.png",
+        "/images/healthhub/7.png",
+        "/images/healthhub/8.png",
+        "/images/healthhub/9.png",
+      ],
+    },
+    {
+      id: 2,
+      title: "SmartMed",
+      category: "Mobile App using Kotlin",
+      video: "/videos/smartmed.mp4",
+      images: [
+        "/images/smartmed/1.png",
+        "/images/smartmed/2.png",
+        "/images/smartmed/3.png",
+        "/images/smartmed/4.png",
+        "/images/smartmed/5.png",
+        "/images/smartmed/6.png",
+        "/images/smartmed/7.png",
+        "/images/smartmed/8.png",
+        "/images/smartmed/9.png",
+        "/images/smartmed/10.png",
+      ],
+    },
+    {
+      id: 3,
+      title: "Churn Analysis",
+      category: "Dashboard Data Analysis using React",
+      video: "/videos/analyze.mp4",
+      images: [
+        "/images/churn/1.png",
+        "/images/churn/2.png",
+        "/images/churn/3.png",
+        "/images/churn/4.png",
+        "/images/churn/5.png",
+        "/images/churn/6.png",
+        "/images/churn/7.png",
+        "/images/churn/8.png",
+        "/images/churn/9.png",
+        "/images/churn/10.png",
+      ],
+    },
+  ];
 
   return (
     <>
@@ -30,40 +200,28 @@ export default function Page() {
         <title>Mywebsite</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="swiper-bundle.min.css" />
-        <script src="https://unpkg.com/scrollreveal"></script>
       </Head>
 
-      {/* ======= Scroll to Top Button ======= */}
-      <div className="scrollToTop-btn flex-center">
-        <i className="fas fa-arrow-up"></i>
-      </div>
-
-      {/* ======= Theme Button ======= */}
-      <div className="theme-btn flex-center">
-        <i className="fas fa-moon"></i>
-        <i className="fas fa-sun"></i>
-      </div>
-
-      {/* ======= Header ======= */}
+      {/* ======= HEADER ======= */}
       <header>
         <div className="nav-bar">
-          <a href="#" className="logo">
+          <span className="logo" onClick={() => scrollToSection("home")}>
             Reyhan Aulia Rachman
-          </a>
-          <div className="navigation">
+          </span>
+
+          <nav className="navigation">
             <div className="nav-items">
-              <div className="nav-close-btn"></div>
-              <a className="active" href="#home">
-                Home
-              </a>
-              <a href="#about">About</a>
-              <a href="#skills">Skills</a>
-              <a href="#portfolio">Portfolio</a>
-              <a href="#contact">Contact</a>
+              {sections.map((item) => (
+                <span
+                  key={item}
+                  className={activeMenu === item ? "active" : ""}
+                  onClick={() => scrollToSection(item)}
+                >
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </span>
+              ))}
             </div>
-          </div>
-          <div className="nav-menu-btn"></div>
+          </nav>
         </div>
       </header>
 
@@ -91,8 +249,8 @@ export default function Page() {
             <a href="https://www.instagram.com/reyyrach_?igsh=MTYzNzZ4b2d4dzJqNA==">
               <i className="fab fa-instagram"></i>
             </a>
-            <a href="https://www.tiktok.com/@user83638292363?_r=1&_t=ZS-91AEMOE3kns">
-              <i className="fab fa-tiktok"></i>
+            <a href="https://github.com/reyhanauliarachman">
+              <i className="fab fa-github"></i>
             </a>
           </div>
 
@@ -104,7 +262,7 @@ export default function Page() {
               handle="reyhanaulia"
               status="Available for Projects"
               contactText="Contact Me"
-              avatarUrl="/images/card-profile.png"
+              avatarUrl="/images/profile.png"
               showUserInfo={true}
               enableTilt={true}
               enableMobileTilt={false}
@@ -131,13 +289,13 @@ export default function Page() {
               <h3>
                 <SplitText
                   text="Android Mobile Developer"
-                  className="split-text"
+                  className="split-text job-title"
                 />
               </h3>
 
               <div className="description">
                 <SplitText
-                  text="I craft stunning mobile apps tailored for your business bringing extensive experience in mobile app design and development."
+                  text="I build reliable and scalable Android applications with a strong focus on performance, clean architecture, and user experience. From idea to deployment, I turn complex requirements into elegant mobile solutions."
                   className="split-text"
                   textAlign="left"
                   tag="p"
@@ -154,21 +312,50 @@ export default function Page() {
       {/* ======= About Section ======= */}
       <section className="about section" id="about">
         <div className="container flex-center">
-          <h1 className="section-title-01">About Me</h1>
-          <h2 className="section-title-02">About Me</h2>
+          <h1 className="section-title-01">
+            <ShinyText
+              text="About Me"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h1>
+
+          <h2 className="section-title-02">
+            <ShinyText
+              text="About Me"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h2>
+
           <div className="content flex-center">
             <div className="about-img">
               <img src="/images/IMG_0263.jpg" alt="Profile Picture" />
             </div>
             <div className="about-info">
               <div className="description">
-                <h3>I'm Reyhan</h3>
-                <p>
-                  I design and develop sleek, modern mobile apps tailored to
-                  customer needs. Passionate about crafting seamless digital
-                  experiences through intuitive interactions. Explore my
-                  portfolio!
-                </p>
+                <h3>
+                  <SplitText text="Im, Reyhan" className="split-text" />
+                </h3>
+                <div className="shiny-border">
+                  <div className="shiny-wrapper">
+                    <ShinyText
+                      text="I specialize in building modern, high-performance Android applications with a strong focus on clean architecture, scalability, and user experience. I enjoy transforming complex ideas into intuitive digital products that deliver real value for users and businesses."
+                      disabled={false}
+                      speed={3}
+                      className="custom-class"
+                    />
+
+                    <ShinyText
+                      text="With hands on experience in mobile development and system integration, I continuously strive to write clean, maintainable code while keeping performance and usability at the core of every project."
+                      disabled={false}
+                      speed={3}
+                      className="custom-class mt-4"
+                    />
+                  </div>
+                </div>
               </div>
               <ul className="professional-list">
                 <li className="list-item">
@@ -188,7 +375,11 @@ export default function Page() {
                   </span>
                 </li>
               </ul>
-              <a href="#" className="btn">
+              <a
+                href="/cv/CV-Reyhan-Aulia-Rachman.pdf"
+                download="Reyhan-Aulia-Rachman.pdf"
+                className="btn"
+              >
                 Download CV <i className="fas fa-download"></i>
               </a>
             </div>
@@ -199,8 +390,23 @@ export default function Page() {
       {/* ======= Skills Section ======= */}
       <section className="skills section" id="skills">
         <div className="container flex-center">
-          <h1 className="section-title-01">Skills</h1>
-          <h2 className="section-title-02">Skills</h2>
+          <h1 className="section-title-01">
+            <ShinyText
+              text="Skills"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h1>
+
+          <h2 className="section-title-02">
+            <ShinyText
+              text="Skills"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h2>
 
           <div className="content">
             {/* ScrollVelocity Full Width */}
@@ -235,7 +441,7 @@ export default function Page() {
                   <div className="upper">
                     <h3>Badan Pusat Statistik</h3>
                     <h5>Data Operator</h5>
-                    <span>March 2021 - Present</span>
+                    <span>March 2021 - November 2025</span>
                   </div>
                   <div className="hr"></div>
                   <h4>
@@ -307,25 +513,121 @@ export default function Page() {
       {/* ======= Portfolio Section ======= */}
       <section className="portfolio section" id="portfolio">
         <div className="container flex-center">
-          <h1 className="section-title-01">Portfolio</h1>
-          <h2 className="section-title-02">Portfolio</h2>
+          <h1 className="section-title-01">
+            <ShinyText
+              text="Portfolio"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h1>
+
+          <h2 className="section-title-02">
+            <ShinyText
+              text="Portfolio"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h2>
           <div className="content">
             <div className="portfolio-list">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div className="img-card-container" key={i}>
+              {portfolioItems.map((item) => (
+                <div
+                  className="img-card-container"
+                  key={item.id}
+                  onClick={() => setSelectedPortfolio(item)}
+                >
                   <div className="img-card">
                     <div className="overlay"></div>
+
                     <div className="info">
-                      <h3>Web Design</h3>
-                      <span>Youtube</span>
+                      <h3>{item.title}</h3>
+                      <span>{item.category}</span>
                     </div>
-                    <img src={`images/porto1.png`} alt={`Portfolio${i}`} />
+
+                    {/* VIDEO THUMBNAIL */}
+                    <video
+                      src={item.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="portfolio-video-thumb"
+                    />
+
+                    <span className="video-badge"></span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
+
+        {selectedPortfolio && (
+          <div className="portfolio-modal active" onClick={closePortfolio}>
+            <div
+              className="portfolio-modal-body"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close */}
+              <button className="modal-close" onClick={closePortfolio}>
+                ✕
+              </button>
+
+              {/* HEADER */}
+              <div className="modal-header">
+                <h3>{selectedPortfolio.title}</h3>
+                <span>{selectedPortfolio.category}</span>
+              </div>
+
+              {/* SLIDER */}
+              <div className="modal-slider">
+                <img
+                  key={currentSlide}
+                  src={selectedPortfolio.images[currentSlide]}
+                  alt="portfolio"
+                />
+
+                <button
+                  className="nav prev"
+                  onClick={() =>
+                    setCurrentSlide(
+                      (prev) =>
+                        (prev - 1 + selectedPortfolio.images.length) %
+                        selectedPortfolio.images.length
+                    )
+                  }
+                >
+                  ‹
+                </button>
+
+                <button
+                  className="nav next"
+                  onClick={() =>
+                    setCurrentSlide(
+                      (prev) => (prev + 1) % selectedPortfolio.images.length
+                    )
+                  }
+                >
+                  ›
+                </button>
+              </div>
+
+              {/* DOTS */}
+              <div className="slider-dots">
+                {selectedPortfolio.images.map((image: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className={idx === currentSlide ? "dot active" : "dot"}
+                    onClick={() => setCurrentSlide(idx)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="get-in-touch sub-section">
           <div className="container">
@@ -351,8 +653,23 @@ export default function Page() {
       {/* ======= Contact Section ======= */}
       <section className="contact section" id="contact">
         <div className="container flex-center">
-          <h1 className="section-title-01">Contact Me</h1>
-          <h2 className="section-title-02">Contact Me</h2>
+          <h1 className="section-title-01">
+            <ShinyText
+              text="Contact Me"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h1>
+
+          <h2 className="section-title-02">
+            <ShinyText
+              text="Contact Me"
+              disabled={false}
+              speed={3}
+              className="shiny-title"
+            />
+          </h2>
           <div className="content">
             <div className="contact-left">
               <h2>Let's discuss your project</h2>
@@ -388,19 +705,43 @@ export default function Page() {
                 <br />
                 <span>design work or partnerships.</span>
               </p>
-              <form className="contact-form">
+              <form ref={formRef} onSubmit={sendEmail} className="contact-form">
                 <div className="first-row">
-                  <input type="text" placeholder="Name" />
+                  <input
+                    type="text"
+                    name="from_name"
+                    placeholder="Name"
+                    required
+                  />
                 </div>
+
                 <div className="second-row">
-                  <input type="email" placeholder="Your Email" />
-                  <input type="text" placeholder="Subject" />
+                  <input
+                    type="email"
+                    name="from_email"
+                    placeholder="Your Email"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="subject"
+                    placeholder="Subject"
+                    required
+                  />
                 </div>
+
                 <div className="third-row">
-                  <textarea rows={7} placeholder="Message"></textarea>
+                  <textarea
+                    name="message"
+                    rows={7}
+                    placeholder="Message"
+                    required
+                  ></textarea>
                 </div>
-                <button className="btn" type="submit">
-                  Send Message <i className="fas fa-paper-plane"></i>
+
+                <button className="btn" type="submit" disabled={loading}>
+                  {loading ? "Sending..." : "Send Message"}
+                  <i className="fas fa-paper-plane"></i>
                 </button>
               </form>
             </div>
@@ -450,8 +791,8 @@ export default function Page() {
                 </a>
               </li>
               <li>
-                <a href="https://www.tiktok.com/@user83638292363?_r=1&_t=ZS-91AEMOE3kns">
-                  <i className="fab fa-tiktok"></i>
+                <a href="https://github.com/reyhanauliarachman">
+                  <i className="fab fa-github"></i>
                 </a>
               </li>
             </ul>
