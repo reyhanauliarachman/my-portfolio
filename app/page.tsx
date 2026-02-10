@@ -28,6 +28,15 @@ export default function Page() {
   const [success, setSuccess] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;

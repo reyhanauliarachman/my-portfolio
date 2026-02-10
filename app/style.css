@@ -1833,3 +1833,65 @@ footer a:hover {
     font-size: 0.8rem;
   }
 }
+
+/* ===============================
+   MOBILE SAFETY PATCH
+   TANPA UBAH DESIGN DESKTOP
+================================ */
+@media (max-width: 768px) {
+  /* FIX vh bug mobile */
+  .home {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  /* Home layout tetap sama, tapi stack */
+  .home .home-container {
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 120px;
+  }
+
+  /* Jangan kunci lebar di mobile */
+  .home-container .info h2,
+  .typing-container {
+    min-width: 0 !important;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Matikan absolute image (tanpa hapus) */
+  .home-container .home-img {
+    position: static;
+  }
+
+  .home-container .home-img img {
+    transform: none;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  /* Icon sosial jangan nabrak */
+  .home-container .media-icons {
+    flex-direction: row;
+    margin: 0;
+    gap: 18px;
+  }
+
+  /* Hindari scale hover di HP */
+  .profile-card-wrapper,
+  .experience-card:hover,
+  .img-card-container:hover .img-card {
+    transform: none !important;
+  }
+
+  /* Portfolio satu kolom */
+  .portfolio-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Modal aman */
+  .portfolio-modal-body {
+    padding: 20px;
+  }
+}
