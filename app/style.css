@@ -76,6 +76,7 @@ body {
   background: #010108;
   margin: 2rem 0 0 0;
   transition: 0.5s ease;
+  overflow-x: hidden;
 }
 
 a {
@@ -295,8 +296,7 @@ header.sticky .nav-bar {
   background: #000000 !important;
   position: relative;
   width: 100%;
-  min-height: 100svh;
-  height: auto;
+  height: 100vh;
   margin: 0;
   padding: 0;
   flex-direction: column;
@@ -399,6 +399,19 @@ header.sticky .nav-bar {
   content: "|";
   display: inline-block;
   animation: blink 0.8s infinite;
+}
+
+.typing-wrapper {
+  min-height: 2.2em;
+  display: flex;
+  align-items: center;
+}
+
+.text-typing,
+.static-text {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 @keyframes blink {
@@ -662,11 +675,11 @@ header.sticky .nav-bar {
 
 .scrollvelocity-wrapper {
   position: relative;
-  width: 100%;
+  width: 100vw;
   left: 50%;
   right: 50%;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: -50vw;
+  margin-right: -50vw;
   overflow: hidden;
   z-index: 5;
 }
@@ -1894,17 +1907,5 @@ footer a:hover {
   /* Modal aman */
   .portfolio-modal-body {
     padding: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  * {
-    backdrop-filter: none !important;
-  }
-}
-
-@media (hover: none) {
-  *:hover {
-    transform: none !important;
   }
 }

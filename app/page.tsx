@@ -284,15 +284,21 @@ export default function Page() {
           </div>
           <div className="info">
             <div className="typing-container">
-              <h2>
-                <TextType
-                  text={["Hi, I'm Reyhan Aulia Rachman"]}
-                  typingSpeed={75}
-                  pauseDuration={1500}
-                  showCursor={true}
-                  cursorCharacter="|"
-                  className="text-typing"
-                />
+              <h2 className="typing-wrapper">
+                {isMobile ? (
+                  <span className="text-typing static-text">
+                    Hi, I'm Reyhan Aulia Rachman
+                  </span>
+                ) : (
+                  <TextType
+                    text={["Hi, I'm Reyhan Aulia Rachman"]}
+                    typingSpeed={75}
+                    pauseDuration={1500}
+                    showCursor={true}
+                    cursorCharacter="|"
+                    className="text-typing"
+                  />
+                )}
               </h2>
 
               <h3>
