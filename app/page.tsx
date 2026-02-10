@@ -434,7 +434,7 @@ export default function Page() {
             </div>
 
             {/* Dome Gallery */}
-            <div className="education">
+            <div className="education dome-wrapper">
               <DomeGallery images={TOOL_IMAGES} fit={0.6} />
             </div>
 
