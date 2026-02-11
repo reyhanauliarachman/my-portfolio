@@ -596,6 +596,70 @@ header.sticky .nav-bar {
   }
 }
 
+/* ================= MOBILE FIX - HOME ================= */
+@media (max-width: 768px) {
+  .home {
+    height: auto;
+    min-height: 100svh;
+    padding: 70px 20px 40px;
+    gap: 0; /* 🔥 HAPUS jarak besar */
+    justify-content: center;
+  }
+
+  .home .home-container {
+    height: auto; /* 🔥 jangan 100% */
+    gap: 25px;
+  }
+
+  /* Social icons jadi horizontal */
+  .home-container .media-icons {
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+    gap: 20px;
+  }
+
+  /* Profile card */
+  .profile-card-wrapper {
+    margin-top: 0; /* 🔥 pastikan tidak ada jarak tambahan */
+  }
+
+  /* Info text */
+  .home .info {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .typing-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .home-container .info h2 {
+    font-size: 1.8rem;
+    min-width: auto;
+    line-height: 1.3;
+  }
+
+  .home-container .info h3 {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .home-container .info p {
+    font-size: 0.95rem;
+    max-width: 100%;
+    line-height: 1.6;
+    padding: 0 10px;
+  }
+
+  /* Scroll down lebih kecil */
+  .home .scroll-down {
+    font-size: 0.8rem;
+    bottom: 20px;
+  }
+}
+
 /*=======About section=======*/
 .about .container .content {
   display: flex;
@@ -666,41 +730,41 @@ header.sticky .nav-bar {
   transition: background 0.3s, transform 0.2s;
 }
 
+.aboutbtn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #1b3b66, #0a2540);
+  color: #ffffff;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
 .btn:hover {
   background: linear-gradient(135deg, #254a80, #16325c);
   transform: translateY(-2px);
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+  .aboutbtn {
+    display: block;
+    margin: 25px auto 0 auto;
+    text-align: center;
+  }
 }
 
 /*=======Skills section=======*/
 
 .scrollvelocity-wrapper {
   position: relative;
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   overflow: hidden;
   z-index: 5;
-}
-
-.dome-wrapper {
-  width: 100%;
-  height: 420px;
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  .dome-wrapper {
-    height: 300px;
-    overflow: visible;
-    touch-action: pan-y;
-  }
-
-  .dome-wrapper canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
-    touch-action: none;
-  }
 }
 
 .custom-scroll-text {
@@ -900,6 +964,82 @@ header.sticky .nav-bar {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+  /* ===== Skills Section ===== */
+  .skills {
+    padding: 60px 20px;
+  }
+
+  .skills-description {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .skills-description h3 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  .skills-info {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 1.5rem;
+  }
+
+  .skills-info > * {
+    width: 100%;
+  }
+
+  /* Scroll background text */
+  .custom-scroll-text {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    opacity: 0.05;
+  }
+
+  /* Fix overflow dari full width wrapper */
+  .scrollvelocity-wrapper {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* ===== Experience Card ===== */
+  .experience-card {
+    max-width: 100%;
+    min-height: auto;
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .experience-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .experience-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .experience-card h4 label {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+  }
+
+  /* ===== Education / Dome Section ===== */
+  .education {
+    width: 100%;
+    height: 60vh; /* lebih fleksibel dari 400px */
+    min-height: 350px; /* tetap aman untuk canvas */
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /*=======Services section=======*/
@@ -1292,6 +1432,22 @@ header.sticky .nav-bar {
   background: #eeeee3;
 }
 
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+  .portfolio-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 0 16px;
+  }
+
+  .img-card-container {
+    width: 100%; /* 🔥 ini yang penting */
+    max-width: 100%;
+  }
+}
+
 /*======= Get-in-Touch Section =======*/
 .get-in-touch {
   margin-top: 100px;
@@ -1405,6 +1561,37 @@ header.sticky .nav-bar {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+  .get-in-touch {
+    margin-top: 60px;
+    padding: 0 16px; /* kasih ruang kiri kanan */
+  }
+
+  .get-in-touch .contact-card {
+    width: 100%;
+    padding: 40px 20px; /* lebih compact */
+    text-align: center; /* biar rapi di HP */
+  }
+
+  .contact-card .title h4 {
+    font-size: 1rem;
+  }
+
+  .contact-card .title h3 {
+    font-size: 1.6rem;
+  }
+
+  .contact-card .title h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  .contact-btn {
+    margin: 30px auto 0 auto;
   }
 }
 

@@ -761,12 +761,7 @@ export default function DomeGallery({
         } as React.CSSProperties
       }
     >
-      <main
-        ref={mainRef}
-        className="sphere-main"
-        style={{ touchAction: "pan-y" }}
-        onPointerDown={(e) => e.stopPropagation()}
-      >
+      <main ref={mainRef} className="sphere-main">
         <div className="stage">
           <div ref={sphereRef} className="sphere">
             {items.map((it, i) => (

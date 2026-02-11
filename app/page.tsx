@@ -393,7 +393,7 @@ export default function Page() {
               <a
                 href="/cv/CV-Reyhan-Aulia-Rachman.pdf"
                 download="Reyhan-Aulia-Rachman.pdf"
-                className="btn"
+                className="aboutbtn"
               >
                 Download CV <i className="fas fa-download"></i>
               </a>
@@ -434,7 +434,7 @@ export default function Page() {
             </div>
 
             {/* Dome Gallery */}
-            <div className="education dome-wrapper">
+            <div className="education">
               <DomeGallery images={TOOL_IMAGES} fit={0.6} />
             </div>
 
