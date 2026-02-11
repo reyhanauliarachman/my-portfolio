@@ -228,6 +228,23 @@ header.sticky .nav-bar {
   width: 100%;
 }
 
+/* ================= MOBILE FIX - HEADER ================= */
+@media (max-width: 768px) {
+  .nav-bar {
+    height: 60px;
+    justify-content: center; /* 🔥 bikin isi ketengah */
+  }
+
+  .nav-bar .logo {
+    text-align: center;
+  }
+
+  /* kalau mau sembunyikan nav items di mobile */
+  .nav-items {
+    display: none;
+  }
+}
+
 /*=======Common styles for all sections=======*/
 .flex-center {
   display: flex;
@@ -600,15 +617,16 @@ header.sticky .nav-bar {
 @media (max-width: 768px) {
   .home {
     height: auto;
-    min-height: 100svh;
-    padding: 70px 20px 40px;
-    gap: 0; /* 🔥 HAPUS jarak besar */
-    justify-content: center;
+    min-height: auto;
+    padding: 0 20px 40px;
+    justify-content: flex-start;
+    gap: 10px;
   }
 
   .home .home-container {
-    height: auto; /* 🔥 jangan 100% */
-    gap: 25px;
+    padding: 0 !important;
+    margin-top: 0;
+    gap: 20px;
   }
 
   /* Social icons jadi horizontal */
@@ -621,7 +639,7 @@ header.sticky .nav-bar {
 
   /* Profile card */
   .profile-card-wrapper {
-    margin-top: 0; /* 🔥 pastikan tidak ada jarak tambahan */
+    margin-top: 0;
   }
 
   /* Info text */
@@ -733,6 +751,7 @@ header.sticky .nav-bar {
 .aboutbtn {
   display: inline-block;
   padding: 10px 20px;
+  margin-top: 30px;
   background: linear-gradient(135deg, #1b3b66, #0a2540);
   color: #ffffff;
   border-radius: 25px;
