@@ -391,8 +391,8 @@ export default function Page() {
                 </li>
               </ul>
               <a
-                href="/cv/CV-Reyhan-Aulia-Rachman.pdf"
-                download="Reyhan-Aulia-Rachman.pdf"
+                href="cv/cv_reyhanauliarachman.pdf"
+                download="CV-Reyhan-Aulia-Rachman.pdf"
                 className="aboutbtn"
               >
                 Download CV <i className="fas fa-download"></i>
